@@ -60,9 +60,8 @@ namespace Mango.Services.ShoppingCartApi.Repositories
             else
             {
                 var cartDetailFromDb = await _dbContext.CartDetails
-                    .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.ProductId == cartDetail.ProductId && x.CartId == cartHeaderFromDb.Id);
-
+                
                 if (cartDetailFromDb == null)
                 {
                     cartDetail.CartId = cartHeaderFromDb.Id;
@@ -72,9 +71,8 @@ namespace Mango.Services.ShoppingCartApi.Repositories
                 }
                 else
                 {
-                    cartDetail.Product = null;
-                    cartDetail.Count += cartDetailFromDb.Count;
-                    _dbContext.CartDetails.Update(cartDetail);
+                    cartDetailFromDb.Count += cartDetail.Count;
+                    _dbContext.CartDetails.Update(cartDetailFromDb);
                     await _dbContext.SaveChangesAsync();
                 }
             }

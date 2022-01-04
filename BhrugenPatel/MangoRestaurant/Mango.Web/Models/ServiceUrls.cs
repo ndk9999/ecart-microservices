@@ -3,6 +3,9 @@
     public class ServiceUrls
     {
         public string ProductApi { get; set; }
+
         public string IdentityApi { get; set; }
+
+        public string ShoppingCartApi { get; set; }
     }
 }

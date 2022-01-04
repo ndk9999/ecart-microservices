@@ -13,11 +13,13 @@ namespace Mango.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -45,6 +47,46 @@ namespace Mango.Web.Controllers
             }
 
             return View(product);
+        }
+
+        [Authorize, HttpPost]
+        public async Task<IActionResult> Details(ProductDto productDto)
+        {
+            var cartDto = new CartDto
+            {
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value
+                }
+            };
+
+            var cartDetails = new CartDetailDto
+            {
+                Count = productDto.Count,
+                ProductId = productDto.Id
+            };
+
+            var response = await _productService.GetProductByIdAsync<ResponseDto>(productDto.Id, "");
+            if (response is { IsSuccess: true })
+            {
+                var jsonData = Convert.ToString(response.Result);
+                cartDetails.Product = JsonConvert.DeserializeObject<ProductDto>(jsonData);
+            }
+
+            cartDto.CartDetails = new List<CartDetailDto>()
+            {
+                cartDetails
+            };
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var addToCartResponse = await _cartService.AddToCartAsync<ResponseDto>(cartDto, accessToken);
+            
+            if (addToCartResponse is { IsSuccess: true})
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(productDto);
         }
 
         [Authorize]
