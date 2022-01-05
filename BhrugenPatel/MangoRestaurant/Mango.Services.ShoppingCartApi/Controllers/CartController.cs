@@ -57,7 +57,7 @@ namespace Mango.Services.ShoppingCartApi.Controllers
             }
         }
 
-        [HttpPost("removecart/{itemId}")]
+        [HttpPost("removecart")]
         public async Task<object> RemoveCart([FromBody] int itemId)
         {
             try

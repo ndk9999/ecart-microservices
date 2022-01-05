@@ -1,4 +1,6 @@
-﻿namespace Mango.Web.Models.Dto
+﻿using Newtonsoft.Json;
+
+namespace Mango.Web.Models.Dto
 {
     public class ResponseDto
     {
@@ -10,6 +12,12 @@
 
         public object Result { get; set; }
 
+
+        public T GetResultAs<T>()
+        {
+            var jsonData = Convert.ToString(Result);
+            return JsonConvert.DeserializeObject<T>(jsonData);
+        }
 
         public static ResponseDto Ok(object result, string displayMessage = null)
         {

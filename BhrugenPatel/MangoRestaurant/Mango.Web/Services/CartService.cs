@@ -7,7 +7,6 @@ namespace Mango.Web.Services
 {
     public class CartService : GenericService, ICartService
     {
-        private readonly IHttpClientFactory _clientFactory;
         private readonly ServiceUrls _serviceUrls;
 
         public CartService(IHttpClientFactory clientFactory, IOptions<ServiceUrls> urlOptions) : base(clientFactory)
