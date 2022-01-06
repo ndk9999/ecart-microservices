@@ -11,6 +11,7 @@ builder.Services.Configure<ServiceUrls>(builder.Configuration.GetSection("Servic
 // Add services to the container.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 

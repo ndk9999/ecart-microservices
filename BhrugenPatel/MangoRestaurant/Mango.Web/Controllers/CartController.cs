@@ -9,11 +9,13 @@ namespace Mango.Web.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
+        private readonly ICouponService _couponService;
 
-        public CartController(IProductService productService, ICartService cartService)
+        public CartController(IProductService productService, ICartService cartService, ICouponService couponService)
         {
             _productService = productService;
             _cartService = cartService;
+            _couponService = couponService;
         }
 
         public async Task<IActionResult> Index()
@@ -31,6 +33,32 @@ namespace Mango.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ApplyCoupon(CartDto cartDto)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _cartService.ApplyCouponAsync<ResponseDto>(cartDto, accessToken);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCoupon(CartDto cartDto)
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _cartService.RemoveCouponAsync<ResponseDto>(cartDto.CartHeader.UserId, accessToken);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            var cart = await LoadCartBasedOnLoggedInUser();
+            return View(cart);
+        }
+
+
         private async Task<CartDto> LoadCartBasedOnLoggedInUser()
         {
             var userId = User.Claims.FirstOrDefault(x => x.Type == "sub")?.Value;
@@ -45,10 +73,25 @@ namespace Mango.Web.Controllers
 
             if (cart.CartHeader != null)
             {
-                cart.CartHeader.OrderTotal = cart.CartDetails.Sum(x => x.Product.Price * x.Count);
+                var orderTotal = cart.CartDetails.Sum(x => x.Product.Price * x.Count);
+
+                cart.CartHeader.DiscountTotal = await ComputeDiscountAmount(cart, accessToken);
+                cart.CartHeader.OrderTotal = orderTotal - cart.CartHeader.DiscountTotal;
             }
 
             return cart;
+        }
+
+        private async Task<decimal> ComputeDiscountAmount(CartDto cartDto, string accessToken)
+        {
+            if (string.IsNullOrEmpty(cartDto.CartHeader.CouponCode))
+                return 0;
+
+            var response = await _couponService.GetCouponAsync<ResponseDto>(cartDto.CartHeader.CouponCode, accessToken);
+            if (response == null) return 0;
+
+            var coupon = response.GetResultAs<CouponDto>();
+            return coupon?.DiscountAmount ?? 0;
         }
     }
 }

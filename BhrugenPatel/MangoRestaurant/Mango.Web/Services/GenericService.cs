@@ -9,7 +9,7 @@ namespace Mango.Web.Services
 {
     public class GenericService : IGenericService
     {
-        private readonly IHttpClientFactory _httpClient;
+        protected readonly IHttpClientFactory _httpClient;
 
         public GenericService(IHttpClientFactory httpClient)
         {

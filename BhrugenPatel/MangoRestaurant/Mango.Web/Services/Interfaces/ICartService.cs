@@ -13,5 +13,9 @@ namespace Mango.Web.Services.Interfaces
         Task<T> RemoveFromCartAsync<T>(int itemId, string accessToken = null);
 
         Task<T> ClearCartAsync<T>(string userId, string accessToken = null);
+
+        Task<T> ApplyCouponAsync<T>(CartDto cartDto, string accessToken = null);
+
+        Task<T> RemoveCouponAsync<T>(string userId, string accessToken = null);
     }
 }
