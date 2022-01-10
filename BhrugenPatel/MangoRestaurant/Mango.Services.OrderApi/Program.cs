@@ -1,21 +1,31 @@
-using Mango.MessageBus;
-using Mango.Services.ShoppingCartApi.DbContexts;
-using Mango.Services.ShoppingCartApi.Repositories;
+using Mango.Services.OrderApi.Contexts;
+using Mango.Services.OrderApi.Extensions;
+using Mango.Services.OrderApi.Messaging;
+using Mango.Services.OrderApi.Models;
+using Mango.Services.OrderApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<ServiceBusOptions>(
+    builder.Configuration.GetSection("ServiceBus"));
+
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add automapper service
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Register our services
-builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddSingleton<IMessageBus, AzureMessageBus>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+var dbOptionBuilder = new DbContextOptionsBuilder<AppDbContext>();
+dbOptionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddSingleton(new OrderRepository(dbOptionBuilder.Options));
+builder.Services.AddSingleton<IServiceBusConsumer, AzureServiceBusConsumer>();
 
 builder.Services.AddControllers();
 
@@ -88,5 +98,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseAzureServiceBusConsumer();
 
 app.Run();

@@ -12,7 +12,7 @@ namespace Mango.MessageBus
     {
         private const string connectionString = "";
 
-        public async Task PublishMessage(BaseMessage message, string topicName)
+        public async Task PublishMessageAsync(BaseMessage message, string topicName)
         {
             var client = new ServiceBusClient(connectionString);
             var sender = client.CreateSender(topicName);
