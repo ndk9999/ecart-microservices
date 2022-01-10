@@ -15,7 +15,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Register our services
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 builder.Services.AddSingleton<IMessageBus, AzureMessageBus>();
+
+builder.Services.AddHttpClient<ICouponRepository, CouponRepository>(client =>
+    client.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponApi"]));
 
 builder.Services.AddControllers();
 

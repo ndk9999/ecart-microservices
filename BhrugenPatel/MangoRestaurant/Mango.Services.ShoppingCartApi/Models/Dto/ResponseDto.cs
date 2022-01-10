@@ -1,4 +1,6 @@
-﻿namespace Mango.Services.ShoppingCartApi.Models.Dto
+﻿using Newtonsoft.Json;
+
+namespace Mango.Services.ShoppingCartApi.Models.Dto
 {
     public class ResponseDto
     {
@@ -10,6 +12,12 @@
 
         public object Result { get; set; }
 
+
+        public T GetResultAs<T>()
+        {
+            var jsonData = Convert.ToString(Result);
+            return JsonConvert.DeserializeObject<T>(jsonData);
+        }
 
         public static ResponseDto Ok(object result, string displayMessage = null)
         {
@@ -23,6 +31,16 @@
                 IsSuccess = false,
                 DisplayMessage = displayMessage,
                 ErrorMessages = new List<string>() { ex.Message }
+            };
+        }
+
+        public static ResponseDto Error(string displayMessage, params string[] errorMessages)
+        {
+            return new()
+            {
+                IsSuccess = false,
+                DisplayMessage = displayMessage,
+                ErrorMessages = new List<string>(errorMessages)
             };
         }
     }
