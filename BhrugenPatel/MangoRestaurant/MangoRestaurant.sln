@@ -23,6 +23,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.MessageBus", "Mango.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.OrderApi", "Mango.Services.OrderApi\Mango.Services.OrderApi.csproj", "{F084C84C-0F74-4745-8052-688CAAF1597E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{68A5A97E-A56F-4966-89DD-C3BEBB70754A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.PaymentProcessor", "Mongo.PaymentProcessor\Mango.PaymentProcessor.csproj", "{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mongo.Services.PaymentApi", "Mongo.Services.PaymentApi\Mongo.Services.PaymentApi.csproj", "{291F5C94-8772-44AE-BA9C-DA8008D31C48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +63,14 @@ Global
 		{F084C84C-0F74-4745-8052-688CAAF1597E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F084C84C-0F74-4745-8052-688CAAF1597E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F084C84C-0F74-4745-8052-688CAAF1597E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291F5C94-8772-44AE-BA9C-DA8008D31C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291F5C94-8772-44AE-BA9C-DA8008D31C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291F5C94-8772-44AE-BA9C-DA8008D31C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291F5C94-8772-44AE-BA9C-DA8008D31C48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +83,8 @@ Global
 		{7BC88A8F-63A9-4694-A70D-8E32FC50F50F} = {D7757358-1A10-4288-BE31-DB0AC2976E69}
 		{13A55BEE-C881-4F8E-A9AF-B5CA3E4CEF49} = {2C766F82-3E02-4DB1-96C9-DB161DE7F236}
 		{F084C84C-0F74-4745-8052-688CAAF1597E} = {D7757358-1A10-4288-BE31-DB0AC2976E69}
+		{3A2B7A41-5728-42EA-BE07-6DED9FCFB20B} = {68A5A97E-A56F-4966-89DD-C3BEBB70754A}
+		{291F5C94-8772-44AE-BA9C-DA8008D31C48} = {D7757358-1A10-4288-BE31-DB0AC2976E69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADDA6E34-9329-4878-8276-8F49F16BEA87}

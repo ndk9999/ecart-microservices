@@ -1,4 +1,4 @@
-﻿namespace Mango.Services.OrderApi.Models
+﻿namespace Mango.Services.PaymentApi.Models
 {
     public class ServiceBusOptions
     {

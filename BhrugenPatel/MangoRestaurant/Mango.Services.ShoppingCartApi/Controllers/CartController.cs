@@ -142,6 +142,7 @@ namespace Mango.Services.ShoppingCartApi.Controllers
 
                 // TODO: Put the logic to add message to process order here
                 await _messageBus.PublishMessageAsync(checkoutModel, "checkout-message-topic");
+                await _cartRepository.ClearCart(checkoutModel.UserId);
 
                 return ResponseDto.Ok(true);
             }
