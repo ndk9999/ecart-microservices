@@ -15,5 +15,7 @@ namespace Mango.Services.PaymentApi.Models
         public string ExpiryMonthYear { get; set; }
 
         public decimal OrderTotal { get; set; }
+
+        public string Email { get; set; }
     }
 }

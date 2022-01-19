@@ -56,7 +56,8 @@ namespace Mango.Services.PaymentApi.Messaging
             var updatePaymentStatusMessage = new UpdatePaymentResultMessage
             {
                 OrderId = paymentRequest.OrderId,
-                Status = paymentResult
+                Status = paymentResult,
+                Email = paymentRequest.Email
             };
 
             try

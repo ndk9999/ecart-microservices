@@ -7,5 +7,7 @@ namespace Mango.Services.PaymentApi.Models
         public int OrderId { get; set; }
 
         public bool Status { get; set; }
+
+        public string Email { get; set; }
     }
 }

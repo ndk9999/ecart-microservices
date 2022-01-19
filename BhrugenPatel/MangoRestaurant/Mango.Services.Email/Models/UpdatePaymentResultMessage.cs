@@ -1,6 +1,6 @@
 ﻿using Mango.MessageBus;
 
-namespace Mango.Services.OrderApi.Models
+namespace Mango.Services.EmailApi.Models
 {
     public class UpdatePaymentResultMessage : BaseMessage
     {
